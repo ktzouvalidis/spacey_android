@@ -1,6 +1,9 @@
 package com.ktzouvalidis.www.spacey.engine.core;
 
+import android.util.Log;
+
 import com.ktzouvalidis.www.spacey.engine.component.Camera;
+import com.ktzouvalidis.www.spacey.util.CoreUtil;
 
 /**
  * Created by Kwstas T on 23-Feb-18.
@@ -82,7 +85,11 @@ public class Transform {
         Matrix4f cameraRotationMatrix = new Matrix4f().initCamera(camera.getForward(), camera.getUp());
         Matrix4f cameraTranslationMatrix = new Matrix4f().initTranslation(-camera.getPos().getX(), -camera.getPos().getY(), -camera.getPos().getZ());
 
-        return projectionMatrix.mul(cameraRotationMatrix.mul(cameraTranslationMatrix.mul(transformationMatrix)));
+        Matrix4f pm = projectionMatrix.mul(cameraRotationMatrix.mul(cameraTranslationMatrix.mul(transformationMatrix)));
+        CoreUtil.i("Projection Matrix", CoreUtil.matrixInfo(pm.getM()));
+
+        return pm;
+        //return projectionMatrix.mul(cameraRotationMatrix.mul(cameraTranslationMatrix.mul(transformationMatrix)));
     }
 
     public Matrix4f getTransformation() {

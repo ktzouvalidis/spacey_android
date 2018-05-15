@@ -1,5 +1,9 @@
 package com.ktzouvalidis.www.spacey.engine.core;
 
+import android.util.Log;
+
+import com.ktzouvalidis.www.spacey.util.CoreUtil;
+
 /**
  * Created by Kwstas T on 19-Feb-18.
  */
@@ -46,6 +50,16 @@ public class Matrix4f {
         return this;
     }
 
+    public Matrix4f initScale(float x, float y, float z) {
+        //x               y               z               w          <--  How much I want
+        m[0][0] = x;    m[0][1] = 0;    m[0][2] = 0;    m[0][3] = 0; // x Final
+        m[1][0] = 0;    m[1][1] = y;    m[1][2] = 0;    m[1][3] = 0; // y Final
+        m[2][0] = 0;    m[2][1] = 0;    m[2][2] = z;    m[2][3] = 0; // z Final
+        m[3][0] = 0;    m[3][1] = 0;    m[3][2] = 0;    m[3][3] = 1; // w Final
+
+        return this;
+    }
+
     public Matrix4f initRotation(float x, float y, float z) {
         Matrix4f rx = new Matrix4f();
         Matrix4f ry = new Matrix4f();
@@ -72,16 +86,6 @@ public class Matrix4f {
         ry.m[3][0] = 0;                     ry.m[3][1] = 0;                     ry.m[3][2] = 0;                     ry.m[3][3] = 1; // w Final
 
         m = rz.mul(ry.mul(rx)).getM();
-
-        return this;
-    }
-
-    public Matrix4f initScale(float x, float y, float z) {
-      //x               y               z               w          <--  How much I want
-        m[0][0] = x;    m[0][1] = 0;    m[0][2] = 0;    m[0][3] = 0; // x Final
-        m[1][0] = 0;    m[1][1] = y;    m[1][2] = 0;    m[1][3] = 0; // y Final
-        m[2][0] = 0;    m[2][1] = 0;    m[2][2] = z;    m[2][3] = 0; // z Final
-        m[3][0] = 0;    m[3][1] = 0;    m[3][2] = 0;    m[3][3] = 1; // w Final
 
         return this;
     }
@@ -113,6 +117,9 @@ public class Matrix4f {
         m[1][0] = u.getX(); m[1][1] = u.getY();  m[1][2] = u.getZ();    m[1][3] = 0;
         m[2][0] = f.getX(); m[2][1] = f.getY();  m[2][2] = f.getZ();    m[2][3] = 0;
         m[3][0] = 0;        m[3][1] = 0;         m[3][2] = 0;           m[3][3] = 1;
+
+        String info = CoreUtil.matrixInfo(m);
+        CoreUtil.i("Camera Init Matrix:", info);
 
         return this;
     }
