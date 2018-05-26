@@ -37,4 +37,24 @@ public class CoreUtil {
 
         return matrixVector;
     }
+
+    public static String matrixInfo(float[][] m) {
+        String info = "\n-------------------------------------------------------\n";
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                info += m[i][j] + ",\t\t";
+            }
+            info += "\n";
+        }
+
+        info += "-------------------------------------------------------\n";
+
+        return info;
+    }
+
+    public static int i(String tag, String msg) {
+        System.out.println("INFO: " + tag + ": " + msg);
+        return 0;
+    }
 }

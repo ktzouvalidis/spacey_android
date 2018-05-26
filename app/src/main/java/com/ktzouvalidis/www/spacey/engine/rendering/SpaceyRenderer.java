@@ -29,7 +29,7 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         shader = new Shader();
-        camera = new Camera(new Vector3f(0, 0, -1.0f), new Vector3f(0.7f, -0.3f, 0.6f), new Vector3f(0, 1, 0));
+        camera = new Camera(new Vector3f(0, 0, -1.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector3f(0, 1, 0));
 
         transform = new Transform();
         Transform.setProjection(70, screenWidth, screenHeight, 0.1f, 1000);

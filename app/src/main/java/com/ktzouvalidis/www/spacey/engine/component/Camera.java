@@ -51,13 +51,17 @@ public class Camera {
     }
 
     public Vector3f getLeft() {
-        Vector3f left = up.cross(forward); // Cross product hand!
+        Vector3f left = forward.cross(up); // Cross product hand!
         left.normalize();
         return left;
     }
 
     public Vector3f getRight() {
+<<<<<<< HEAD
         Vector3f right = forward.cross(up); // Negative value for right
+=======
+        Vector3f right = up.cross(forward);
+>>>>>>> ea50a3c2ddb3307150480ae28ef2f3ed8ef0320d
         right.normalize();
         return right;
     }
