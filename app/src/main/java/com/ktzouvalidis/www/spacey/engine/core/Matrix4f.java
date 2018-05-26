@@ -90,11 +90,12 @@ public class Matrix4f {
         float ar = width / height; // Aspect Ratio
         float tanHalfFOV = (float)Math.tan(Math.toRadians(fov / 2));
         float zRange = zNear - zFar; // How much space we have in the depth
+        // *OpenGL automaticaly devides by the z value later on
 
-        m[0][0] = 1 / (tanHalfFOV * ar);   m[0][1] = 0;                m[0][2] = 0;                 m[0][3] = 0;
-        m[1][0] = 0;                m[1][1] = 1 / tanHalfFOV;   m[1][2] = 0;                        m[1][3] = 0;
-        m[2][0] = 0;                m[2][1] = 0;                m[2][2] = (-zNear - zFar) / zRange; m[2][3] = 2 * zFar * zNear / zRange;
-        m[3][0] = 0;                m[3][1] = 0;                m[3][2] = 1;                        m[3][3] = 0;
+        m[0][0] = 1.0f / (tanHalfFOV * ar);     m[0][1] = 0;                    m[0][2] = 0;                        m[0][3] = 0;
+        m[1][0] = 0;                            m[1][1] = 1.0f / tanHalfFOV;    m[1][2] = 0;                        m[1][3] = 0;
+        m[2][0] = 0;                            m[2][1] = 0;                    m[2][2] = (-zNear - zFar) / zRange; m[2][3] = 2 * zFar * zNear / zRange;
+        m[3][0] = 0;                            m[3][1] = 0;                    m[3][2] = 1;                        m[3][3] = 0;
 
         return this;
     }

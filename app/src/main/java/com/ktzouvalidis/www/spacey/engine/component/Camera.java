@@ -7,7 +7,7 @@ import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
  */
 
 public class Camera {
-    private final Vector3f Y_AXIS = new Vector3f(0, 1, 0);
+    private final Vector3f Y_AXIS = new Vector3f(0, 1, 0); // Absolute Up Direction (Up in the world)
 
     private Vector3f pos;
     private Vector3f forward;
@@ -57,7 +57,7 @@ public class Camera {
     }
 
     public Vector3f getRight() {
-        Vector3f right = forward.cross(up);
+        Vector3f right = forward.cross(up); // Negative value for right
         right.normalize();
         return right;
     }
@@ -67,7 +67,7 @@ public class Camera {
     }
 
     public void rotateX(float angle) {
-        Vector3f horizontalAxis = Y_AXIS.cross(forward);
+        Vector3f horizontalAxis = Y_AXIS.cross(forward); // Horizontal to the world (Relative to global axis)
         horizontalAxis.normalize();
 
         forward.rotate(angle, horizontalAxis);
@@ -78,7 +78,7 @@ public class Camera {
     }
 
     public void rotateY(float angle) {
-        Vector3f horizontalAxis = Y_AXIS.cross(forward);
+        Vector3f horizontalAxis = Y_AXIS.cross(forward); // Horizontal to the world (Relative to global axis)
         horizontalAxis.normalize();
 
         forward.rotate(angle, Y_AXIS);
