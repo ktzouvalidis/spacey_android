@@ -119,4 +119,9 @@ public class Vector3f {
     public Vector3f div(float r) {
         return new Vector3f(x / r, y / r, z / r);
     }
+
+    @Override
+    public String toString() {
+        return "X: " + x + " Y: " + y + " Z: " + z;
+    }
 }

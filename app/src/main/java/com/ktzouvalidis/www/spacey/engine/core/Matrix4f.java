@@ -120,7 +120,7 @@ public class Matrix4f {
         m[3][0] = 0;        m[3][1] = 0;         m[3][2] = 0;           m[3][3] = 1;
 
         String info = CoreUtil.matrixInfo(m);
-        CoreUtil.i("Camera Init Matrix:", info);
+        //CoreUtil.i("Camera Init Matrix:", info);
 
         return this;
     }
@@ -145,7 +145,7 @@ public class Matrix4f {
 
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 4; i++) {
-                str = str + ", " + m[i][j];
+                str = str + m[i][j] + ", ";
             }
         }
 

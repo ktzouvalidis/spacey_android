@@ -1,6 +1,9 @@
 package com.ktzouvalidis.www.spacey.engine.rendering;
 
+import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.ktzouvalidis.www.spacey.R;
 import com.ktzouvalidis.www.spacey.engine.component.Camera;
@@ -19,7 +22,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class SpaceyRenderer implements GLSurfaceView.Renderer{
     private Shader shader;
     private Transform transform;
-    private Camera camera;
+    public Camera camera;
 
     public float screenWidth;
     public float screenHeight;
@@ -29,7 +32,11 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         shader = new Shader();
-        camera = new Camera(new Vector3f(0, 0, -1.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector3f(0, 1, 0));
+
+        Vector3f pos = new Vector3f(0, 0, -1.0f);
+        Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
+        Vector3f up = new Vector3f(0, 1, 0);
+        camera = new Camera(new Vector3f(0, -2.0f, -1.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector3f(0, 1, 0));
 
         transform = new Transform();
         Transform.setProjection(70, screenWidth, screenHeight, 0.1f, 1000);

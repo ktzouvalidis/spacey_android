@@ -1,5 +1,7 @@
 package com.ktzouvalidis.www.spacey.engine.rendering.resource;
 
+import android.util.Log;
+
 import com.ktzouvalidis.www.spacey.ContextHandler;
 import com.ktzouvalidis.www.spacey.engine.rendering.Mesh;
 
@@ -42,8 +44,8 @@ public class ResourceLoader {
             Obj readableObjModel = ObjUtils.convertToRenderable(objModel);
             mesh.addVertices(ObjData.getVertices(readableObjModel), ObjData.getFaceVertexIndices(readableObjModel));
 
-            System.out.println(objModel.getNumVertices());
-            System.out.println(objModel.getNumFaces());
+            Log.d("Model Vertices: ", String.valueOf(objModel.getNumVertices()));
+            Log.d("Model Faces: ", String.valueOf(objModel.getNumFaces()));
 
             return mesh;
         } catch (IOException e) {

@@ -1,5 +1,9 @@
 package com.ktzouvalidis.www.spacey.engine.component;
 
+import android.os.Debug;
+import android.util.Log;
+import android.view.MotionEvent;
+
 import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
 
 /**
@@ -57,11 +61,8 @@ public class Camera {
     }
 
     public Vector3f getRight() {
-<<<<<<< HEAD
-        Vector3f right = forward.cross(up); // Negative value for right
-=======
-        Vector3f right = up.cross(forward);
->>>>>>> ea50a3c2ddb3307150480ae28ef2f3ed8ef0320d
+
+        Vector3f right = up.cross(forward); // Negative value for right
         right.normalize();
         return right;
     }
@@ -90,5 +91,16 @@ public class Camera {
 
         up = forward.cross(horizontalAxis);
         up.normalize();
+    }
+
+    public void input(MotionEvent motionEvent) {
+        float movAmount = 10;
+        float rotAmount = 70;
+
+        if(motionEvent.getAction() == motionEvent.ACTION_DOWN) {
+            rotateX(rotAmount);
+            Log.i("Touched! ", "At: X: " + motionEvent.getX() + " Y: " + motionEvent.getY() + "\n"
+                    + "New position: " + pos + "\nNew rotation: " + up);
+        }
     }
 }
