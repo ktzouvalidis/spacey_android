@@ -2,7 +2,9 @@ package com.ktzouvalidis.www.spacey.engine.rendering;
 
 import android.opengl.GLES20;
 
+import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
 import com.ktzouvalidis.www.spacey.util.CoreUtil;
+import com.ktzouvalidis.www.spacey.util.RenderUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -27,6 +29,8 @@ public class Mesh {
         ibo = buffers[1];
         size = 0;
     }
+
+    public Mesh(Vertex[] data) {}
 
     public void addVertices(FloatBuffer verticesBuffer, IntBuffer indicesBuffer) {
         size = indicesBuffer.capacity();
@@ -79,10 +83,7 @@ public class Mesh {
         }
         usingFaces = false;
 
-        ByteBuffer verticesByteBuffer = ByteBuffer.allocateDirect(verticesVector.length * 4); // 4 bytes for Float
-        verticesByteBuffer.order(ByteOrder.nativeOrder());
-        FloatBuffer verticesBuffer = verticesByteBuffer.asFloatBuffer().put(verticesVector);
-        verticesBuffer.position(0);
+        FloatBuffer verticesBuffer = RenderUtil.allocateFloatBuffer(verticesVector);
 
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo);
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, verticesBuffer.capacity() * 4, verticesBuffer, GLES20.GL_STATIC_DRAW);
@@ -104,9 +105,10 @@ public class Mesh {
 
     public void draw() {
         if(usingFaces) {
-            GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo);
             GLES20.glEnableVertexAttribArray(0);
-            GLES20.glVertexAttribPointer(0, Vertex.SIZE, GLES20.GL_FLOAT, false, Vertex.SIZE * 4, 0);
+
+            GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo);
+            GLES20.glVertexAttribPointer(0, Vertex.SIZE, GLES20.GL_FLOAT, false, Vertex.VERTEX_BYTE_SIZE, 0);
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
 
             GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -118,7 +120,7 @@ public class Mesh {
             GLES20.glEnableVertexAttribArray(0);
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo);
 
-            GLES20.glVertexAttribPointer(0, Vertex.SIZE, GLES20.GL_FLOAT, false, Vertex.SIZE * 4, 0);
+            GLES20.glVertexAttribPointer(0, Vertex.SIZE, GLES20.GL_FLOAT, false, Vertex.VERTEX_BYTE_SIZE, 0);
             GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, size);
 
             GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);

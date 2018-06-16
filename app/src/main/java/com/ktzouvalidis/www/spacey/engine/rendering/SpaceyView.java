@@ -21,11 +21,4 @@ public class SpaceyView extends GLSurfaceView {
         setEGLContextClientVersion(2);
         setRenderer(renderer);
     }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent motionEvent) {
-        renderer.camera.input(motionEvent);
-        requestRender();
-        return true;
-    }
 }

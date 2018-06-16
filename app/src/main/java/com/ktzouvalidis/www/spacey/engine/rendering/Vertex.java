@@ -8,6 +8,7 @@ import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
 
 public class Vertex {
     public static final int SIZE = 3;
+    public static final int VERTEX_BYTE_SIZE = SIZE * 4;
     private Vector3f pos;
 
     public Vertex(Vector3f pos) {

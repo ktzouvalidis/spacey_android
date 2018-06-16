@@ -22,63 +22,62 @@ import javax.microedition.khronos.opengles.GL10;
 public class SpaceyRenderer implements GLSurfaceView.Renderer{
     private Shader shader;
     private Transform transform;
-    public Camera camera;
 
     public float screenWidth;
     public float screenHeight;
 
     Mesh model;
+    Mesh triangle;
+    float color[] = {0.8f, 0.5f, 0.1f, 1.0f};
+
+    Vertex[] triangleData = new Vertex[] {
+            new Vertex(new Vector3f(-1, -1, 0)),
+            new Vertex(new Vector3f(0, 1, 0)),
+            new Vertex(new Vector3f(1, -1, 0))
+    };
+
+    //////////////////////////////////////////////////////////
+    ////////////////////// MAIN METHODS //////////////////////
+    //////////////////////////////////////////////////////////
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         shader = new Shader();
-
-        Vector3f pos = new Vector3f(0, 0, -1.0f);
-        Vector3f forward = new Vector3f(0.0f, 0.0f, 1.0f);
-        Vector3f up = new Vector3f(0, 1, 0);
-        camera = new Camera(new Vector3f(0, -2.0f, -1.0f), new Vector3f(0.0f, 0.0f, 1.0f), new Vector3f(0, 1, 0));
-
-        transform = new Transform();
-        Transform.setProjection(70, screenWidth, screenHeight, 0.1f, 1000);
-        Transform.setCamera(camera);
+        triangle = new Mesh();
 
         shader.addVertexShader(ResourceLoader.loadShader(R.raw.vertex_shader));
         shader.addFragmentShader(ResourceLoader.loadShader(R.raw.fragment_shader));
         shader.compileShader();
         shader.addUniform("u_Color");
-        shader.setUniform("u_Color", new Vector3f(1.0f, 1.0f, 0.0f));
-        shader.addUniform("u_Transform");
-
-        transform.setScale(0.5f, 0.5f, 0.5f);
-        transform.setTranslation(0.0f, 0.0f, 1.0f);
-        transform.setRotation(90, 0, 0f);
 
         RenderUtil.initGraphics();
         createObjects();
     }
 
     @Override
-    public void onSurfaceChanged(GL10 gl, int width, int height) {
-    }
+    public void onSurfaceChanged(GL10 gl, int width, int height) {}
 
     @Override
     public void onDrawFrame(GL10 gl) {
         RenderUtil.clearScreen();
 
-        shader.setUniform("u_Transform", transform.getProjectedTransformation());
-
         drawObjects();
     }
 
+    //////////////////////////////////////////////////////////
+    ///////////////////// CUSTOM METHODS /////////////////////
+    //////////////////////////////////////////////////////////
+
     private void createObjects() {
-        //triangle = new Mesh();
-        model = ResourceLoader.loadMesh("torus.obj");
-        //triangle.addVertices(triangleData, triangleIndices);
+        //model = ResourceLoader.loadMesh("torus.obj");
+        triangle.addVertices(triangleData);
     }
 
     private void drawObjects() {
         shader.bind();
-        model.draw();
+        // Can change the uniforms ONLY when the program is bound
+        shader.setUniform("u_Color", color);
+        triangle.draw();
         //triangle.draw();
     }
 }

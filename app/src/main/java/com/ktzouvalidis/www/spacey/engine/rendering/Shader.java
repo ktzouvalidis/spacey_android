@@ -1,6 +1,7 @@
 package com.ktzouvalidis.www.spacey.engine.rendering;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import com.ktzouvalidis.www.spacey.engine.core.Matrix4f;
 import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
@@ -21,7 +22,7 @@ public class Shader {
         uniforms = new HashMap<String, Integer>();
 
         if(program == 0) {
-            System.err.println("Shader creation failed: Could not find valid memory location on construction.");
+            System.err.println("Shader creation failed: Could not find valid memory location in construction.");
             System.exit(1);
         }
     }
@@ -70,7 +71,7 @@ public class Shader {
     public void addUniform(String uniform) {
         int uniformLocation = GLES20.glGetUniformLocation(program, uniform);
         if(uniformLocation == 0xFFFFFF) {
-            System.err.println("Error: Could not find uniform: " + uniform);
+            Log.e("Uniform not found", "Could not find uniform: " + uniform);
             System.exit(1);
         }
 
@@ -83,6 +84,10 @@ public class Shader {
 
     public void setUniform(String uniformName, Vector3f value) {
         GLES20.glUniform4f(uniforms.get(uniformName), value.getX(), value.getY(), value.getZ(), 1.0f);
+    }
+
+    public void setUniform(String uniformName, float[] value) {
+        GLES20.glUniform4fv(uniforms.get(uniformName), 1, value, 0);
     }
 
     public void setUniform(String uniformName, Matrix4f value) {
@@ -105,7 +110,7 @@ public class Shader {
         int[] isCompiled = new int[1];
         GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, isCompiled, 0);
         if(isCompiled[0] == GLES20.GL_FALSE) {
-            System.err.println("!!!\n" + GLES20.glGetShaderInfoLog(shader) + "!!!\n");
+            Log.e("Adding program: ", "\n" + GLES20.glGetShaderInfoLog(shader));
             System.exit(1);
         }
 
@@ -118,14 +123,14 @@ public class Shader {
 
         GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, isOK, 0);
         if(isOK[0] == GLES20.GL_FALSE) {
-            System.err.println(GLES20.glGetShaderInfoLog(program));
+            Log.e("Program compilation: ", "\n" + GLES20.glGetShaderInfoLog(program));
             System.exit(1);
         }
 
         GLES20.glValidateProgram(program);
         GLES20.glGetProgramiv(program, GLES20.GL_VALIDATE_STATUS, isOK, 0);
         if(isOK[0] == GLES20.GL_FALSE) {
-            System.err.println(GLES20.glGetShaderInfoLog(program));
+            Log.e("Program validation: ", "\n" + GLES20.glGetShaderInfoLog(program));
             System.exit(1);
         }
     }
