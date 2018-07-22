@@ -112,8 +112,6 @@ public class Transform {
         Matrix4f rotationMatrix = new Matrix4f().initRotation(rotation.getX(), rotation.getY(), rotation.getZ());
         Matrix4f scaleMatrix = new Matrix4f().initScale(scale.getX(), scale.getY(), scale.getZ());
 
-        Matrix4f ma = translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
-
-        return ma;
+        return translationMatrix.mul(rotationMatrix.mul(scaleMatrix));
     }
 }

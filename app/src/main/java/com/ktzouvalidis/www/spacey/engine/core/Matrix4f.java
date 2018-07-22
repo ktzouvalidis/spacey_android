@@ -139,6 +139,20 @@ public class Matrix4f {
         return res;
     }
 
+    public Matrix4f muli(Matrix4f r) {
+        Matrix4f res = new Matrix4f();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                res.set(i, j, m[0][i] * r.get(j, 0) +
+                        m[1][i] * r.get(j, 1) +
+                        m[2][i] * r.get(j, 2) +
+                        m[3][i] * r.get(j, 3));
+            }
+        }
+
+        return res;
+    }
+
     @Override
     public String toString() {
         String str = "M: ";

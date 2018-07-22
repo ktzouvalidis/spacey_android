@@ -15,10 +15,10 @@ public class CoreUtil {
 
         int counter = 0; // Counter for the verticesVector vector
         for(int i = 0; i < vertices.length; i++) {
-            Vector3f v = vertices[i].getPos();
-            verticesVector[counter++] = v.getX();
-            verticesVector[counter++] = v.getY();
-            verticesVector[counter++] = v.getZ();
+            Vector3f pos = vertices[i].getPos();
+            verticesVector[counter++] = pos.getX();
+            verticesVector[counter++] = pos.getY();
+            verticesVector[counter++] = pos.getZ();
         }
 
         return verticesVector;
@@ -28,11 +28,11 @@ public class CoreUtil {
         float[] matrixVector = new float[16];
 
         int counter = 0; // Counter for the matrixVector vector
-        for(int j = 0; j < 4; j++) {
-            matrixVector[counter++] = matrix.get(0, j);
-            matrixVector[counter++] = matrix.get(1, j);
-            matrixVector[counter++] = matrix.get(2, j);
-            matrixVector[counter++] = matrix.get(3, j);
+        for(int i = 0; i < 4; i++) {
+            matrixVector[counter++] = matrix.get(0, i);
+            matrixVector[counter++] = matrix.get(1, i);
+            matrixVector[counter++] = matrix.get(2, i);
+            matrixVector[counter++] = matrix.get(3, i);
         }
 
         return matrixVector;

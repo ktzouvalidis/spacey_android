@@ -1,12 +1,9 @@
 package com.ktzouvalidis.www.spacey.engine.rendering;
 
-import android.content.Context;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.ktzouvalidis.www.spacey.R;
-import com.ktzouvalidis.www.spacey.engine.component.Camera;
 import com.ktzouvalidis.www.spacey.engine.core.Transform;
 import com.ktzouvalidis.www.spacey.engine.rendering.resource.ResourceLoader;
 import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
@@ -20,6 +17,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 
 public class SpaceyRenderer implements GLSurfaceView.Renderer{
+
     private Shader shader;
     private Transform transform;
 
@@ -43,12 +41,14 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         shader = new Shader();
+        transform = new Transform();
         triangle = new Mesh();
 
         shader.addVertexShader(ResourceLoader.loadShader(R.raw.vertex_shader));
         shader.addFragmentShader(ResourceLoader.loadShader(R.raw.fragment_shader));
         shader.compileShader();
         shader.addUniform("u_Color");
+        shader.addUniform("transform");
 
         RenderUtil.initGraphics();
         createObjects();
@@ -60,6 +60,8 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
     @Override
     public void onDrawFrame(GL10 gl) {
         RenderUtil.clearScreen();
+
+        transform.setScale(0.5f, 0.5f, 0.5f);
 
         drawObjects();
     }
@@ -77,7 +79,7 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
         shader.bind();
         // Can change the uniforms ONLY when the program is bound
         shader.setUniform("u_Color", color);
+        shader.setUniform("transform", transform.getTransformation());
         triangle.draw();
-        //triangle.draw();
     }
 }
