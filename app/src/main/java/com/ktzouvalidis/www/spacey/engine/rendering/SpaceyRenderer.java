@@ -34,10 +34,7 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
             new Vertex(new Vector3f(1, -1, 0))
     };
 
-    //////////////////////////////////////////////////////////
-    ////////////////////// MAIN METHODS //////////////////////
-    //////////////////////////////////////////////////////////
-
+    //region MAIN METHODS
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         shader = new Shader();
@@ -62,14 +59,13 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
         RenderUtil.clearScreen();
 
         transform.setScale(0.5f, 0.5f, 0.5f);
+        transform.setRotation(0, 0, 90);
 
         drawObjects();
     }
+    //endregion
 
-    //////////////////////////////////////////////////////////
-    ///////////////////// CUSTOM METHODS /////////////////////
-    //////////////////////////////////////////////////////////
-
+    //region CUSTOM METHODS
     private void createObjects() {
         //model = ResourceLoader.loadMesh("torus.obj");
         triangle.addVertices(triangleData);
@@ -82,4 +78,5 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
         shader.setUniform("transform", transform.getTransformation());
         triangle.draw();
     }
+    //endregion
 }
