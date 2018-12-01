@@ -11,8 +11,8 @@ import com.ktzouvalidis.www.spacey.util.CoreUtil;
 
 public class Transform {
     private static Camera camera;
-    private static float zNear;
-    private static float zFar;
+    private static float zNear; // How close an object needs to be in order for it to clip
+    private static float zFar; // How far away an object needs to be in order for it to clip
     private static float width;
     private static float height;
     private static float fov;
@@ -82,11 +82,11 @@ public class Transform {
     public Matrix4f getProjectedTransformation() {
         Matrix4f transformationMatrix = getTransformation();
         Matrix4f projectionMatrix = new Matrix4f().initProjection(fov, width, height, zNear, zFar);
-        Matrix4f cameraRotationMatrix = new Matrix4f().initCamera(camera.getForward(), camera.getUp());
+        //Matrix4f cameraRotationMatrix = new Matrix4f().initCamera(camera.getForward(), camera.getUp());
         // Negatives because we want the whole world move to the opposite way when the camera moves
-        Matrix4f cameraTranslationMatrix = new Matrix4f().initTranslation(-camera.getPos().getX(), -camera.getPos().getY(), -camera.getPos().getZ());
+        //Matrix4f cameraTranslationMatrix = new Matrix4f().initTranslation(-camera.getPos().getX(), -camera.getPos().getY(), -camera.getPos().getZ());
 
-        Matrix4f pm = projectionMatrix.mul(cameraRotationMatrix.mul(cameraTranslationMatrix.mul(transformationMatrix)));
+        Matrix4f pm = projectionMatrix.mul(transformationMatrix);
         //CoreUtil.i("Projection Matrix", CoreUtil.matrixInfo(pm.getM()));
 
         return pm;

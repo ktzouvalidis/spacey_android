@@ -50,11 +50,11 @@ public class Vector3f {
     }
 
     public Vector3f cross(Vector3f r) {
-        float x = y * r.getZ() - z * r.getY();
-        float y = z * r.getX() - x * r.getZ();
-        float z = x * r.getY() - y * r.getX();
+        float x_ = y * r.getZ() - z * r.getY();
+        float y_ = z * r.getX() - x * r.getZ();
+        float z_ = x * r.getY() - y * r.getX();
 
-        return new Vector3f(x, y, z);
+        return new Vector3f(x_, y_, z_);
     }
 
     public Vector3f normalize() {

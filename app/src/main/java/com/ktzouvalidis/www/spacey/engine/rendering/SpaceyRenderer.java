@@ -4,6 +4,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.ktzouvalidis.www.spacey.R;
+import com.ktzouvalidis.www.spacey.engine.component.Camera;
 import com.ktzouvalidis.www.spacey.engine.core.Transform;
 import com.ktzouvalidis.www.spacey.engine.rendering.resource.ResourceLoader;
 import com.ktzouvalidis.www.spacey.engine.core.Vector3f;
@@ -24,28 +25,25 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
     public float screenWidth;
     public float screenHeight;
 
+    Camera camera;
     Mesh model;
-    Mesh triangle;
+    Mesh model1;
     float color[] = {0.8f, 0.5f, 0.1f, 1.0f};
-
-    Vertex[] triangleData = new Vertex[] {
-            new Vertex(new Vector3f(-1, -1, 0)),
-            new Vertex(new Vector3f(0, 1, 0)),
-            new Vertex(new Vector3f(1, -1, 0))
-    };
 
     //region MAIN METHODS
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         shader = new Shader();
         transform = new Transform();
-        triangle = new Mesh();
+        camera = new Camera();
+        Transform.setProjection(70, 1920, 1080, 0.1f, 1000);
+        Transform.setCamera(camera);
 
         shader.addVertexShader(ResourceLoader.loadShader(R.raw.vertex_shader));
         shader.addFragmentShader(ResourceLoader.loadShader(R.raw.fragment_shader));
         shader.compileShader();
         shader.addUniform("u_Color");
-        shader.addUniform("transform");
+        shader.addUniform("u_Transform");
 
         RenderUtil.initGraphics();
         createObjects();
@@ -58,8 +56,8 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
     public void onDrawFrame(GL10 gl) {
         RenderUtil.clearScreen();
 
-        transform.setScale(0.5f, 0.5f, 0.5f);
-        transform.setRotation(0, 0, 90);
+        transform.setTranslation(0, 0, 5);
+        transform.setRotation(0, 0, 0);
 
         drawObjects();
     }
@@ -67,16 +65,17 @@ public class SpaceyRenderer implements GLSurfaceView.Renderer{
 
     //region CUSTOM METHODS
     private void createObjects() {
-        //model = ResourceLoader.loadMesh("torus.obj");
-        triangle.addVertices(triangleData);
+        model = ResourceLoader.loadMesh("torus.obj");
+        model1 = ResourceLoader.loadMesh("torus.obj");
     }
 
     private void drawObjects() {
         shader.bind();
         // Can change the uniforms ONLY when the program is bound
         shader.setUniform("u_Color", color);
-        shader.setUniform("transform", transform.getTransformation());
-        triangle.draw();
+        shader.setUniform("u_Transform", transform.getProjectedCameraTransformation());
+        model.draw();
+        model1.draw();
     }
     //endregion
 }
